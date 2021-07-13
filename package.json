@@ -1,0 +1,23 @@
+{
+  "name": "bff-federation-books",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "DD_ENV=\"dev-local\" DD_TRACE_SAMPLE_RATE=\"1\" nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/federation": "^0.25.1",
+    "apollo-server": "^2.21.1",
+    "dd-trace": "^0.36.1",
+    "graphql": "^15.5.0",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
