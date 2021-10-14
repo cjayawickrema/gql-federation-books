@@ -1,23 +1,3 @@
-// DD INIT - start
-const httpServerOptions = {
-    middleware: false,
-};
-const graphqlOptions = {
-    depth: 2,
-    collapse: true,
-    signature: false
-};
-const tracer = require('dd-trace');
-tracer.init({
-    plugins: false
-});
-tracer.use('http', {
-    server: httpServerOptions,
-});
-tracer.use('express', httpServerOptions);
-tracer.use('graphql', graphqlOptions);
-// DD INIT - end
-
 const {ApolloServer, gql} = require('apollo-server');
 const {buildFederatedSchema} = require('@apollo/federation');
 
@@ -54,10 +34,6 @@ const booksDataMock = [
 
 const typeDefs = gql`
 
-    type Person {
-        name: String
-    }
-
     extend type Publisher @key(fields: "id") {
         id: ID! @external
     }
@@ -65,7 +41,6 @@ const typeDefs = gql`
     type Book @key(fields: "isbn") {
         isbn: String!
         title: String
-        author: Person!
         publisher: Publisher
     }
 
@@ -79,9 +54,6 @@ const resolvers = {
         books: () => booksDataMock,
     },
     Book: {
-        author: (obj) => {
-            return {name: 'Peter Clark'};
-        },
         publisher(book) {
             return {__typename: "Publisher", id: book.publisher.id};
         }
