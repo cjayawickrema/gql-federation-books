@@ -1,36 +1,7 @@
 const {ApolloServer, gql} = require('apollo-server');
 const {buildFederatedSchema} = require('@apollo/federation');
 
-const booksDataMock = [
-    {
-        publisher: {
-            id: 'P001'
-        },
-        isbn: 'ABC1234',
-        title: 'The Awakening',
-    },
-    {
-        publisher: {
-            id: 'P002'
-        },
-        isbn: 'XYZ1234',
-        title: 'City of Glass',
-    },
-    {
-        publisher: {
-            id: 'P003'
-        },
-        isbn: 'PQR1234',
-        title: 'Glass House',
-    },
-    {
-        publisher: {
-            id: 'P003'
-        },
-        isbn: 'PQR6789',
-        title: 'Pete Decker',
-    },
-];
+const { booksDataMock, bookDataLoader } = require('./bookLoader');
 
 const typeDefs = gql`
 
@@ -54,14 +25,20 @@ const resolvers = {
         books: () => booksDataMock,
     },
     Book: {
+        __resolveReference(book, {bookLoader}) {
+            return bookLoader.load(book.isbn);
+        },
         publisher(book) {
             return {__typename: "Publisher", id: book.publisher.id};
-        }
+        },        
     }
 };
-
+ 
 const server = new ApolloServer({
-    schema: buildFederatedSchema([{typeDefs, resolvers}])
+    schema: buildFederatedSchema([{typeDefs, resolvers}]),
+    context: () => ({
+        bookLoader: bookDataLoader()
+    }),
 });
 
 

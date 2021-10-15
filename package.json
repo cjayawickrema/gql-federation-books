@@ -14,7 +14,8 @@
     "@apollo/federation": "^0.25.1",
     "apollo-server": "^2.21.1",
     "graphql": "^15.5.0",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "dataloader": "^2.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
