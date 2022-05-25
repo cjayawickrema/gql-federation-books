@@ -11,7 +11,7 @@ const typeDefs = gql`
 
     type Book @key(fields: "isbn") {
         isbn: String!
-        title: String
+        title: String @deprecated
         publisher: Publisher
     }
 
